@@ -62,7 +62,7 @@ public class LivroActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Informe o ano.", Toast.LENGTH_SHORT).show();
                     txtAno.requestFocus();
                 }else{
-                    LivroHelper.getInstance().inserir(new Livro(titulo, autor, editora, Integer.parseInt(ano)));
+                    LivroHelper.getInstance().inserir(new Livro(titulo, autor, editora, ano));
                     Toast.makeText(getApplicationContext(), "Livro salvo com sucesso!", Toast.LENGTH_SHORT).show();
                     txtTitulo.setText("");
                     txtEditora.setText("");

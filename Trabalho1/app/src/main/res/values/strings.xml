@@ -13,4 +13,9 @@
     <string name="txtAno">Ano</string>
     <string name="txtAutor">Autor</string>
     <string name="btnLista">Listar</string>
+    <string name="lbParticipante">Participante</string>
+    <string name="lbLivro">Livro</string>
+    <string name="lbEmail">Email</string>
+    <string name="lbEntrada">Entrada</string>
+    <string name="lbSaida">Saída</string>
 </resources>

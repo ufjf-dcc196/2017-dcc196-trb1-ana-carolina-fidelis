@@ -20,17 +20,25 @@ public class LivroHelper {
     private static void init(){
         if(livros == null){
             livros = new ArrayList<>();
+            livros.add(new Livro(1, "Dom Quixote", "Miguel de Cervantes", "Saraiva", "1605"));
+            livros.add(new Livro(2, "Guerra e Paz", "Liev Tolstói", "Abril", "1869"));
+            livros.add(new Livro(3, "A Montanha Mágica", "Thomas Mann", "Saraiva", "1924"));
         }
     }
 
+    private int proximoID(){
+        return livros.size()+1;
+    }
+
     public void inserir(Livro livro){
+        livro.setId(proximoID());
         livros.add(livro);
     }
 
-    public Livro buscar(String titulo, String editora, int ano){
+    public Livro buscar(int id){
         Livro livro = null;
         for (Livro l: livros){
-            if(l.getTitulo().equals(titulo) && l.getEditora().equals(editora) && l.getAno() == ano){
+            if(l.getId() == id){
                 livro = l;
             }
         }
@@ -40,4 +48,5 @@ public class LivroHelper {
     public List<Livro> listar(){
         return livros;
     }
+
 }

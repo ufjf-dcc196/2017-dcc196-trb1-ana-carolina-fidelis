@@ -20,14 +20,15 @@ public class PessoaHelper {
     private static void init(){
        if(pessoas == null){
            pessoas = new ArrayList<>();
-           pessoas.add(new Pessoa("Pedro Henrique", "pedro@net.com.br"));
-           pessoas.add(new Pessoa("Ana Maria", "maria@net.com.br"));
-           pessoas.add(new Pessoa("Júlio da Silva", "julio@net.com.br"));
-           pessoas.add(new Pessoa("Barack Obama", "obama@net.com.br"));
+           pessoas.add(new Pessoa(1,"Pedro Henrique", "pedro@net.com.br"));
+           pessoas.add(new Pessoa(2,"Ana Maria", "maria@net.com.br"));
+           pessoas.add(new Pessoa(3, "Júlio da Silva", "julio@net.com.br"));
+           pessoas.add(new Pessoa(4, "Barack Obama", "obama@net.com.br"));
        }
     }
 
     public void inserir(Pessoa p){
+        p.setId(proximoID());
         pessoas.add(p);
     }
 
@@ -35,14 +36,18 @@ public class PessoaHelper {
         return pessoas;
     }
 
-    public Pessoa buscar(String nome){
+    public Pessoa buscar(int id){
         Pessoa pessoa = null;
         for(Pessoa p: pessoas){
-            if(p.getNome().equals(nome)){
+            if(p.getId() == id){
                 pessoa = p;
             }
         }
         return pessoa;
+    }
+
+    private int proximoID(){
+        return pessoas.size()+ 1;
     }
 
 }

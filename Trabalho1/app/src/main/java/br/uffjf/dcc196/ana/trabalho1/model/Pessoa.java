@@ -1,9 +1,11 @@
 package br.uffjf.dcc196.ana.trabalho1.model;
 
 
+import java.io.Serializable;
 import java.util.Calendar;
 
-public class Pessoa {
+public class Pessoa implements Serializable{
+    private int id;
     private String nome;
     private String email;
     private Calendar horaEntrada;
@@ -15,6 +17,20 @@ public class Pessoa {
     public Pessoa(String nome, String email) {
         this.nome = nome;
         this.email = email;
+    }
+
+    public Pessoa(int id, String nome, String email) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -47,5 +63,10 @@ public class Pessoa {
 
     public void setHoraSaida(Calendar horaSaida) {
         this.horaSaida = horaSaida;
+    }
+
+    @Override
+    public String toString() {
+        return nome;
     }
 }

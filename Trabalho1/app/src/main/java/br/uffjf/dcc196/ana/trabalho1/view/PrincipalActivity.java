@@ -4,15 +4,13 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Calendar;
 
 import br.uffjf.dcc196.ana.trabalho1.R;
 import br.uffjf.dcc196.ana.trabalho1.helper.PessoaHelper;
@@ -62,26 +60,42 @@ public class PrincipalActivity extends AppCompatActivity {
             }
         });
 
-        atualizaParticipantes();
-    }
+        //carregar participantes
+        final ArrayAdapter<Pessoa> adaptador = new ArrayAdapter<>(getApplicationContext(),
+                android.R.layout.simple_list_item_1,
+                PessoaHelper.getInstance().listar());
 
-    private void atualizaParticipantes(){
-        //participates na list view
-       List<Map<String, String>> data = new ArrayList<>();
-        for (Pessoa p: PessoaHelper.getInstance().listar()){
-            Map<String, String> map = new HashMap<>(2);
-            String info = "Email: " + p.getEmail() + " \nEntada: 00:00" +  "\t\tSaída: 00:00";
-            map.put("nome", p.getNome()) ;
-            map.put("info", info);
-            data.add(map);
-        }
+        lstParticipantes.setAdapter(adaptador);
 
-       final SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(), data,
-                android.R.layout.simple_list_item_2,
-                new String[] {"nome", "info"},
-                new int[] {android.R.id.text1,
-                        android.R.id.text2}
-        );
-        lstParticipantes.setAdapter(adapter);
+        //clicar no participante para visualizar seus dados
+        lstParticipantes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Pessoa pessoa = adaptador.getItem(position);
+                Intent in = new Intent(PrincipalActivity.this, ParticipanteDadoActivity.class);
+                in.putExtra("participante", pessoa);
+                startActivity(in);
+            }
+        });
+
+        //modificar a hora de entrada e de saida
+        lstParticipantes.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Pessoa pessoa = adaptador.getItem(position);
+                if(pessoa.getHoraEntrada() == null){
+                    pessoa.setHoraEntrada(Calendar.getInstance());
+                    Toast.makeText(PrincipalActivity.this, "Entrada registrada.", Toast.LENGTH_SHORT).show();
+                }else if(pessoa.getHoraSaida() == null){
+                    pessoa.setHoraSaida(Calendar.getInstance());
+                    Toast.makeText(PrincipalActivity.this, "Saída registrada.", Toast.LENGTH_SHORT).show();
+                }else{
+                    pessoa.setHoraEntrada(null);
+                    pessoa.setHoraSaida(null);
+                    Toast.makeText(PrincipalActivity.this, "Registro de entrada e saída apagados.", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            }
+        });
     }
 }
